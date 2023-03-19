@@ -45,3 +45,7 @@ public class Problem08 {
         System.out.println(cnt);
     }
 }
+/*
+음수 고려
+본인과 같은 인덱스인지 확인
+ */
