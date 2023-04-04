@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Problem23 {
-    static Map<Integer, List<Integer>> map;
+    static ArrayList<Integer>[] A;
+    static boolean[] visited;
+    static int count = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,34 +17,43 @@ public class Problem23 {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        map = new HashMap<>();
-        boolean[] visited = new boolean[N + 1];
-        Stack<Integer> myStack = new Stack<>();
+        A = new ArrayList[N + 1];
+        visited = new boolean[N + 1];
 
         for (int i = 1; i <= N; i++) {
-            map.put(i, new ArrayList<>());
+            A[i] = new ArrayList<>();
+            visited[i] = false;
         }
 
-        for (int i = 0; i < M; i++) {
+        for (int i = 1; i <= M; i++) {
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            map.get(start).add(end);
+            int S = Integer.parseInt(st.nextToken());
+            int E = Integer.parseInt(st.nextToken());
+
+            A[S].add(E);
+            A[E].add(S);
         }
 
         for (int i = 1; i <= N; i++) {
-            visited[i] = true;
-            List<Integer> integers = map.get(i);
-            for (int j = 0; j < integers.size(); j++) {
-                int n = integers.get(j);
-                if (visited[n]) {
-                    continue;
-                }
-                myStack.push(n);
+            if (!visited[i]) {
+                count++;
+                dfs(i);
             }
-
-
         }
 
+        System.out.println(count);
+    }
+
+    public static void dfs(int i) {
+        if (visited[i]) {
+            return;
+        }
+        visited[i] = true;
+
+        for (int a : A[i]) {
+            if (!visited[a]) {
+                dfs(a);
+            }
+        }
     }
 }
