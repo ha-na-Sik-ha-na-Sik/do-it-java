@@ -8,7 +8,6 @@ public class Problem24 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-        List<Integer> list = new ArrayList<>();
 
         dfs(2, 1, N);
         dfs(3, 1, N);
