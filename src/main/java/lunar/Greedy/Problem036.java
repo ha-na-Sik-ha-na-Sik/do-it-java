@@ -1,5 +1,4 @@
 package lunar.Greedy;
-
 import java.util.Scanner;
 
 public class Problem036 {
