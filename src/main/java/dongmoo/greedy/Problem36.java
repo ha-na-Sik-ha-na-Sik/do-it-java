@@ -1,7 +1,5 @@
 package dongmoo.greedy;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Problem36 {
@@ -39,6 +37,5 @@ public class Problem36 {
                 }
             }
         }
-        System.out.println(answer);
     }
 }
