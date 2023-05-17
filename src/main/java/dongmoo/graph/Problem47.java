@@ -1,8 +1,6 @@
 package dongmoo.graph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Problem47 {
@@ -13,6 +11,7 @@ public class Problem47 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
@@ -35,8 +34,7 @@ public class Problem47 {
         int max = 0;
 
         for (int i = 1; i <= N; i++) {
-            BFS(i);
-            int visit = countVisit();
+            int visit = BFS(i);
             if (visit > max) {
                 answer = new ArrayList<>();
                 answer.add(i);
@@ -44,16 +42,20 @@ public class Problem47 {
             } else if (visit == max) {
                 answer.add(i);
             }
-            initializeVisit();
+            visited = new boolean[N + 1];
         }
 
         Collections.sort(answer);
-        answer.forEach(System.out::println);
+        for (Integer integer : answer) {
+            bw.write(integer + " ");
+        }
 
+        bw.flush();
     }
 
-    public static void BFS(int node) {
+    public static int BFS(int node) {
         Queue<Integer> queue = new LinkedList<>();
+        int count = 0;
         queue.add(node);
         visited[node] = true;
 
@@ -61,25 +63,12 @@ public class Problem47 {
             int now_node = queue.poll();
             for (int i : A[now_node]) {
                 if (!visited[i]) {
+                    count++;
                     visited[i] = true;
                     queue.add(i);
                 }
             }
-
         }
-    }
-
-    public static int countVisit() {
-        int answer = 0;
-        for (int i = 0; i < visited.length; i++) {
-            if (visited[i]) {
-                answer++;
-            }
-        }
-        return answer;
-    }
-
-    public static void initializeVisit() {
-        Arrays.fill(visited, false);
+        return count;
     }
 }
