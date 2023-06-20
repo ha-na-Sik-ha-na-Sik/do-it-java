@@ -6,70 +6,64 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Problem46 {
-
+	static ArrayList<Integer>[] A;
 	static int[] visited;
-	static List<Integer>[] A;
-	static int N;
-	static int M;
 	static int K;
-	static int X;
-
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
-		X = Integer.parseInt(st.nextToken());
+		int X = Integer.parseInt(st.nextToken());
 
-		A = new ArrayList[N+1];
+		A = new ArrayList[N + 1];
 		visited = new int[N + 1];
 
-		for (int i = 1; i <= N; i++) {
-			A[i] = new ArrayList<>();
-		}
-
 		for (int i = 0; i <= N; i++) {
+			A[i] = new ArrayList<>();
 			visited[i] = -1;
 		}
 
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
-			int start = Integer.parseInt(st.nextToken());
-			int end = Integer.parseInt(st.nextToken());
-			A[start].add(end);
+			int u = Integer.parseInt(st.nextToken());
+			int v = Integer.parseInt(st.nextToken());
+			A[u].add(v);
 		}
+		bfs(X);
 
-		List<Integer> answer = new ArrayList<>();
-		BFS(X);
+		List<Integer> answers = new ArrayList<>();
 		for (int i = 0; i <= N; i++) {
 			if (visited[i] == K) {
-				answer.add(i);
+				answers.add(i);
 			}
 		}
-		if (answer.isEmpty()) {
+
+		if (answers.isEmpty()) {
 			System.out.println(-1);
 		} else {
-			Collections.sort(answer);
-			answer.forEach(System.out::println);
+			Collections.sort(answers);
+			answers.forEach(System.out::println);
 		}
 	}
 
-	public static void BFS(int node) {
-		Queue<Integer> queue = new LinkedList<>();
-		queue.add(node);
-		visited[node]++;
+	public static void bfs(int node) {
+		Queue<Integer> myQueue = new LinkedList<>();
+		myQueue.add(node);
+		visited[node] = 0;
 
-		while (!queue.isEmpty()) {
-			int now_node = queue.poll();
-			for(int i : A[now_node]) {
+		while (!myQueue.isEmpty()) {
+			int nowNode = myQueue.poll();
+			for (int i : A[nowNode]) {
 				if (visited[i] == -1) {
-					visited[i] = visited[now_node] + 1;
-					queue.add(i);
+					myQueue.add(i);
+					visited[i] = visited[nowNode] + 1;
 				}
 			}
 		}
 	}
+
 }
